@@ -33,6 +33,12 @@ const colorZones = {
         "Dsd Cold-Dry_Summer-Very_Cold_Winter": "#966495",
         "Dwd Cold-Dry_Winter-Very_Cold_Winter": "#320087"
     }//we use it in tailwin config
+function formatName(koppenZone) {
+    let [code, description] = koppenZone.split(" ");
+    description = description.replace(/[_|-]/gm, " ");
+
+    return `${code} - ${description}`;
+}
 function haversineDistance(coords1, coords2, isMiles=true) {
   function toRad(x) {
     return x * Math.PI / 180;
@@ -149,7 +155,7 @@ function loadFlights() {
                             ${percentage.toFixed(0)}%
                         </span>
                     </div>
-                    <span class="w-44">${zoneName}</span>
+                    <span class="w-44">${formatName(zoneName)}</span>
                 </div>
             `);
         }
