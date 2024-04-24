@@ -112,29 +112,52 @@ function loadFlights() {
     const startCoordinates = [start.latitude, start.longitude].reverse();
     const endCoordinates = [end.latitude, end.longitude].reverse();
 
+    const totalDistance = haversineDistance(startCoordinates, endCoordinates);
+
+    document.querySelector("#start-name").innerHTML = start.airport;
+    document.querySelector("#end-name").innerHTML = end.airport;
+
     const line = [startCoordinates, endCoordinates];
 
     const intersections = testAllZones(line);
-    console.log(intersections);
+    let zoneDistances = {}; // Track total distance within each zone
+
+    // Calculate total distance within each zone
+    intersections.forEach((instance) => {
+        const zoneName = instance.name;
+        const distance = instance.distance;
+        if (zoneDistances.hasOwnProperty(zoneName)) {
+            zoneDistances[zoneName] += distance;
+        } else {
+            zoneDistances[zoneName] = distance;
+        }
+    });
 
     let htmlRenders = [];
-    for (let i = 0; i < intersections.length; i++) {
-        htmlRenders.push(`
-            <div class="flex flex-row w-full mx-3">
-                <div class=" h-16 w-16 flex items-center justify-center" style="background-color: ${colorZones[intersections[i].name]}">
-                    <span>
-                    ${intersections[i].distance.toFixed(1)} mi
-                </span>
-                </div>
-                <span>${intersections[i].name}</span>
-            </div>
-        `);
 
-        console.log(colorZones[intersections[i].name].toLowerCase())
+    // Calculate percentage and render HTML
+    for (const zoneName in zoneDistances) {
+        if (zoneDistances.hasOwnProperty(zoneName)) {
+            const distance = zoneDistances[zoneName];
+            const percentage = (distance / totalDistance) * 100;
+            htmlRenders.push(`
+                <div class="flex flex-row mx-3">
+                    <div class="h-16 w-16 flex items-center justify-center" style="background-color: ${colorZones[zoneName]}">
+                        <span class="text-sm text-center">
+                            ${distance.toFixed(1)} mi
+                            <br>
+                            ${percentage.toFixed(0)}%
+                        </span>
+                    </div>
+                    <span class="w-44">${zoneName}</span>
+                </div>
+            `);
+        }
     }
+
     document.querySelector('#zones').innerHTML = htmlRenders.join('');
-    
 }
+
 
 function testAllZones(line) {
     let intersectedZones = []; //store all zone data and intersected points
@@ -144,10 +167,20 @@ function testAllZones(line) {
 
         const zone = koppenData.features[i]
         const coords = zone.geometry.coordinates;
-
-        const intersections = findIntersectionPoints(line, coords);
+        
+        let intersections = findIntersectionPoints(line, coords);
         if (intersections.length > 0) {
-            console.log(type);
+            if (intersections.length == 1) {//Starting and ending points only have one intersection point since they start within a zone
+                const dist_to_start = haversineDistance(intersections[0], line[0]);
+                const dist_to_end = haversineDistance(intersections[0], line[1]);
+
+                if (dist_to_start > dist_to_end) {
+                    intersections.push(line[0]);
+                } else {
+                    intersections.push(line[1])
+                }
+
+            }
             intersectedZones.push({
                 intersections: intersections, 
                 geojson: zone, 

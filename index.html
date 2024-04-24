@@ -11,6 +11,11 @@
     <h1 class="font-mono font-bold text-3xl text-center font-black">
         Köppen Flight
     </h1>
+    <p>
+        Have you ever looked out of the window on a plane and noticed the huge variety of terrain and geography out the window.
+        If so, here you can analyse in-depth the distribution of all <a href="https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification" class="underline">Köppen–Geiger climate zones</a> over the length of your flight.
+        To begin, enter any <a href="https://en.wikipedia.org/wiki/ICAO_airport_code" class="underline">airport ICAO code</a>.
+    </p>
     <div class="flex flex-row px-10">
         <div class="w-full mx-3 flex flex-col">
             <label class="w-full text-center text-lg font-black">
@@ -30,7 +35,15 @@
             Koppen
         </button>
     </div>
-    <div id="zones"></div>
+    <div class="flex flex-row w-full justify-center">
+        <h1 class="color-grey-900 text-center font-mono font-bold text-xl font-black">
+            <span id="start-name">Starting Airport</span>
+            ⇨
+            <span id="end-name">Ending Airport</span>
+        </h1>
+        
+    </div>
+    <div id="zones" class="flex flex-row flex-wrap"></div>
     <script src="script.js" defer></script>
 </body>
 </html>
