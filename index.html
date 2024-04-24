@@ -5,8 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Köppen Planes</title>
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <h1 class="font-mono font-bold text-3xl text-center font-black">
+        Köppen Flight
+    </h1>
+    <div class="flex flex-row px-10">
+        <div class="w-full mx-3 flex flex-col">
+            <label class="w-full text-center text-lg font-black">
+                From
+            </label>
+            <input class="bg-gray-50 border border-gray-900 rounded px-2 py-1 w-full" placeholder="KLAX" name="from"/>
+        </div>
+        <div class="w-full mx-3 flex flex-col">
+            <label class="w-full text-center text-lg font-black">
+                To
+            </label>
+            <input class="bg-gray-50 border border-gray-900 rounded px-2 py-1 w-full" placeholder="CYYZ" name="to"/>
+        </div>
+    </div>
+    <div class="flex w-full justify-center my-10">
+        <button class="px-5 py-3 bg-green-200 rounded-lg" onclick="loadFlights()">
+            Koppen
+        </button>
+    </div>
+    <div id="zones"></div>
     <script src="script.js" defer></script>
 </body>
 </html>
