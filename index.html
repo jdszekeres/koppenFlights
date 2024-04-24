@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Köppen Planes</title>
+    <title>Köppen Flights</title>
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
     <link rel="stylesheet" href="./style.css">
 </head>
@@ -11,7 +11,7 @@
     <h1 class="font-mono font-bold text-3xl text-center font-black">
         Köppen Flight
     </h1>
-    <p>
+    <p class=" mx-3">
         Have you ever looked out of the window on a plane and noticed the huge variety of terrain and geography out the window.
         If so, here you can analyse in-depth the distribution of all <a href="https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification" class="underline">Köppen–Geiger climate zones</a> over the length of your flight.
         To begin, enter any <a href="https://en.wikipedia.org/wiki/ICAO_airport_code" class="underline">airport ICAO code</a>.
@@ -32,7 +32,7 @@
     </div>
     <div class="flex w-full justify-center my-10">
         <button class="px-5 py-3 bg-green-200 rounded-lg" onclick="loadFlights()">
-            Koppen
+            Köppen
         </button>
     </div>
     <div class="flex flex-row w-full justify-center">
@@ -43,7 +43,7 @@
         </h1>
         
     </div>
-    <div id="zones" class="flex flex-row flex-wrap"></div>
+    <div id="zones" class="flex flex-row flex-wrap justify-center w-full"></div>
     <script src="script.js" defer></script>
 </body>
 </html>

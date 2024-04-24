@@ -125,7 +125,7 @@ function loadFlights() {
 
     const line = [startCoordinates, endCoordinates];
 
-    const intersections = testAllZones(line);
+    intersections = testAllZones(line);
     let zoneDistances = {}; // Track total distance within each zone
 
     // Calculate total distance within each zone
@@ -140,8 +140,9 @@ function loadFlights() {
     });
 
     let htmlRenders = [];
-
+    const oceanicDistance = totalDistance - Object.values(zoneDistances).reduce((a, b) => a + b, 0);;
     // Calculate percentage and render HTML
+    zoneDistances["XXX Ocean"] = oceanicDistance;
     for (const zoneName in zoneDistances) {
         if (zoneDistances.hasOwnProperty(zoneName)) {
             const distance = zoneDistances[zoneName];
@@ -161,7 +162,18 @@ function loadFlights() {
         }
     }
 
-    document.querySelector('#zones').innerHTML = htmlRenders.join('');
+    document.querySelector('#zones').innerHTML = htmlRenders.join('') + Array(
+        Object.values(zoneDistances).length%(Math.floor(document.body.clientWidth/240))
+    ).fill(`<div class="flex flex-row mx-3">
+                    <div class="h-16 w-16 flex items-center justify-center" style="background-color: undefined">
+                        <span class="text-sm text-center">
+                            
+                            <br>
+                        
+                        </span>
+                    </div>
+                    <span class="w-44"></span>
+                </div>`);
 }
 
 
@@ -180,7 +192,7 @@ function testAllZones(line) {
                 const dist_to_start = haversineDistance(intersections[0], line[0]);
                 const dist_to_end = haversineDistance(intersections[0], line[1]);
 
-                if (dist_to_start > dist_to_end) {
+                if (dist_to_start < dist_to_end) {
                     intersections.push(line[0]);
                 } else {
                     intersections.push(line[1])
